@@ -1,5 +1,5 @@
 class Heuristics:
-	# 当可以在多个操作之间进行选择时始终选择第一个操作
+	# select first operation when there are multiple choices
 	@staticmethod
 	def select_first_operation(jobs_to_be_done, max_operations, _):
 		best_candidates = {}
@@ -25,19 +25,17 @@ class Heuristics:
 
 		return best_candidates
 
-	# LEPT 规则
+	# longest expected processing time first
 	@staticmethod
 	def longest_expected_processing_time_first(jobs_to_be_done, max_operations, current_time):
 		pass
 
-	# 剩余操作的最短剩余时间
-	# S/RO = [(期限时间 - 当前时间) - 总工序完成剩余时间] / 剩余操作数
+	# shortest slack time
 	@staticmethod
 	def shortest_slack_per_remaining_operations(jobs_to_be_done, max_operations, current_time):
 		pass
 
-	# 最高临界比例
-	# CR = 处理时间 / (期限时间 - 当前时间)
+	# highest critical ratio
 	@staticmethod
 	def highest_critical_ratios(jobs_to_be_done, max_operations, current_time):
 		best_candidates = {}
@@ -47,7 +45,7 @@ class Heuristics:
 		for job in jobs_to_be_done:
 			current_activity = job.current_activity
 
-			# 计算一个作业活动的每一个操作的临界比例
+			# calculate the critical ratio of every operation of the activity
 			for operation in current_activity.next_operations:
 				critical_ratio = operation.duration / (job.total_shop_time - current_time)
 				critical_ratios.update({job.id_job: (current_activity, operation, critical_ratio)})
@@ -61,9 +59,7 @@ class Heuristics:
 					list_operations.append((current_activity, operation, critical_ratio))
 					best_candidates.update({operation.id_machine: list_operations})
 
-	# TODO: end that
-
-	# 随机分配工件给机床
+	# select a random operation
 	@staticmethod
 	def random_operation_choice(jobs_to_be_done, max_operations, _):
 		import random
@@ -84,7 +80,7 @@ class Heuristics:
 
 		return best_candidates
 
-	## 创建机器分配和操作顺序列表（待改进）
+	## todo
 	@staticmethod
 	def initialisation_list(jobs_to_be_done):
 		machine_assignment = []
@@ -93,9 +89,9 @@ class Heuristics:
 			for activity in job.activities_to_be_done:
 				operation_sequence.append(job.id_job)
 				machine_assignment.append(activity.next_operations[0].id_machine)
-		print("已分配的机器 :")
+		print("machine selected :")
 		for machine in machine_assignment:
 			print(str(machine))
-		print("工序操作序列 :")
+		print("operations :")
 		for operation in operation_sequence:
 			print(operation)

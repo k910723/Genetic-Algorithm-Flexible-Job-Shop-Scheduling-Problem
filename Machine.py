@@ -1,4 +1,3 @@
-# CNC机器模拟类
 class Machine:
 	def __init__(self, id_machine, max_operations, install_uninstall_time_cost,CNC_break_down_rate,CNC_recovery_time_cost):
 		self.__id_machine = id_machine
@@ -12,41 +11,41 @@ class Machine:
 		self.__CNC_break_down_rate = CNC_break_down_rate
 		self.__CNC_recovery_time_cost = CNC_recovery_time_cost
 
-	# CNC机器ID
+	# machine ID
 	@property
 	def id_machine(self):
 		return self.__id_machine
 
-	# 已完成的工作
+	# finished operations
 	@property
 	def operations_done(self):
 		return self.__operations_done
 
-	# CNC机器故障率
+	# machine breakdown rate
 	@property
 	def CNC_break_down_rate(self):
 		return self.__CNC_break_down_rate
 
-	# CNC机器故障恢复时间
+	# machine recovery time
 	@property
 	def CNC_recovery_time_cost(self):
 		return self.__CNC_recovery_time_cost
 
-	# 机器上下料耗时
+	# time to install and uninstall on this machine
 	@property
 	def install_uninstall_time_cost(self):
 		return self.__install_uninstall_time_cost
 
-	# 是否处于最大容量工作
+	# is working at maximum capacity
 	def is_working_at_max_capacity(self):
 		return len(self.__processed_operations) == self.__max_operations
 
-	# 添加一项待完成工件工序操作到机器
+	# add a operation to this machine
 	def add_operation(self, activity, operation):
 		if self.is_working_at_max_capacity():
-			raise EnvironmentError("已达到容量上限")
+			raise EnvironmentError("machine at maximum capacity")
 		if operation.id_machine != self.__id_machine:
-			raise EnvironmentError("机器ID不匹配")
+			raise EnvironmentError("machine ID incorrect")
 
 		operation.time = self.__current_time
 		operation.is_pending = True
@@ -54,7 +53,7 @@ class Machine:
 
 		self.__processed_operations.append((activity, operation))
 
-	# 模拟一个单位时间的工作状态
+	# simulate work in a unit time
 	def work(self):
 		self.__current_time += 1
 		for activity, operation in self.__processed_operations:
