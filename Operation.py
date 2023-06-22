@@ -1,4 +1,3 @@
-# 工序操作模拟类
 class Operation:
 	def __init__(self, id_operation, id_machine, duration):
 		self.__id_operation = id_operation
@@ -8,61 +7,61 @@ class Operation:
 		self.__is_pending = False
 		self.__place_of_arrival = None
 
-	# toString 方法
+	# toString
 	def __str__(self):
-		output = "操作" + str(self.__id_operation) + " [由CNC机器" + str(
-			self.__id_machine) + "#处理]  耗时" + str(self.__duration) + "(单位时间)"
+		output = "operation" + str(self.__id_operation) + " [machine" + str(
+			self.__id_machine) + "processing] takes" + str(self.__duration) + "(unit time)"
 		if not (self.__time is None):
-			output += ", 此操作作业开始于 " + str(self.__time)
+			output += ", this operation starts at" + str(self.__time)
 		return output
 
-	# 操作ID
+	# the ID of operation
 	@property
 	def id_operation(self):
 		return self.__id_operation
 
-	# 是否完成
+	# is finished
 	def is_done(self, t):
 		return not (self.__time is None) and self.__time + self.__duration <= t
 
-	# 是否等待
+	# is pending
 	@property
 	def is_pending(self):
 		return self.__is_pending
 
-	# 设置等待状态
+	# set pending status
 	@is_pending.setter
 	def is_pending(self, value):
 		self.__is_pending = value
 
-	# 返回将被分配用于处理此操作的CNC机器ID
+	# return the machine ID that is going to process this operation
 	@property
 	def place_of_arrival(self):
 		return self.__place_of_arrival
 
-	# 设置用于处理此操作的CNC机器ID
+	# set the machine ID that is going to process this operation
 	@place_of_arrival.setter
 	def place_of_arrival(self, value):
 		self.__place_of_arrival = value
 
-	# 对应CNC机器ID
+	# corresponding machine ID
 	@property
 	def id_machine(self):
 		return self.__id_machine
 
-	# 操作耗时
+	# duration
 	@property
 	def duration(self):
 		return self.__duration
 
-	# 获取操作开始时间
+	# start time
 	@property
 	def time(self):
 		return self.__time
 
-	# 设置操作开始时间
+	# set start time
 	@time.setter
 	def time(self, value):
 		if value < 0:
-			raise ValueError("[错误] 起始时间不可小于零")
+			raise ValueError("[error] start can't be less than 0")
 		self.__time = value
